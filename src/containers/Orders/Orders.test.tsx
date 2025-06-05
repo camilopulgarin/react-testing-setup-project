@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { getOrders } from "../../services/getOrders";
 import { render, screen, waitFor } from "@testing-library/react";
 import { SessionProvider, useSession } from "../../context/AuthContext";
+import { getSummaryOrders } from "../../utils/sumamry";
 
 vi.mock("../../services/getOrders", () => ({
   getOrders: vi.fn(),
@@ -76,4 +77,14 @@ describe("<Orders />", () => {
         expect(orders).toHaveLength(mockOrders.length);
     })
   });
+
+  it('deberia mostrar seccion para superadmins', async () => {
+    mockgetOrders.mockResolvedValue(mockOrders);
+    handleRenderOrders('superadmin');
+    await waitFor(() => {
+        const { totalOrders } = getSummaryOrders(mockOrders);
+        const totalOrdersElement = screen.getByTestId('totalOrders').textContent;
+        expect(totalOrdersElement).toBe(totalOrders.toString());
+    });
+  })
 });
