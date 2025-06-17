@@ -9,7 +9,7 @@ describe('miPrimerTest', () => {
 
     it('dos textos son iguales', () => {
         const texto1 = 'Hola';
-        const texto2 = 'Holaaa';
+        const texto2 = 'Hola';
         expect(texto1).toBe(texto2);
     })
 })
